@@ -1,0 +1,197 @@
+:root {
+  --paper: #EEF1EC;
+  --paper-card: #E3E8E2;
+  --ink: #1B2430;
+  --ink-soft: #4A5568;
+  --blueprint: #1E4B7A;
+  --blueprint-deep: #123253;
+  --border: rgba(30, 75, 122, 0.25);
+  --accent-hover: #9C5216;
+  --radius: 4px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3 { line-height: 1.15; margin: 0 0 0.5em; }
+h1 { font-size: clamp(2rem, 1.6rem + 2vw, 3rem); }
+h2 { font-size: clamp(1.4rem, 1.2rem + 1vw, 1.8rem); color: var(--blueprint); }
+p { margin: 0 0 1em; }
+
+a { color: var(--blueprint); }
+a:hover { color: var(--accent-hover); }
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent-hover);
+  outline-offset: 3px;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--blueprint-deep);
+  border-bottom: 3px solid var(--blueprint);
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+header > a {
+  color: var(--paper);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+}
+
+header nav a {
+  color: var(--paper);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+header nav a:hover,
+header nav a:focus-visible { color: #8FC4EE; }
+
+main section {
+  padding: clamp(2rem, 1.5rem + 2vw, 4rem) 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+#about dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4em 1em;
+  font-size: 0.95rem;
+  margin: 1.5em 0;
+  max-width: 400px;
+}
+#about dl div { display: contents; }
+#about dt { color: var(--ink-soft); font-weight: 600; }
+#about dd { margin: 0; }
+
+#about figure {
+  margin: 1.5em 0 0;
+  max-width: 320px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+}
+#about figure img { padding: 1rem; }
+#about figcaption {
+  padding: 0.75em 1em;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  background: var(--paper-card);
+  border-top: 1px solid var(--border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+caption { text-align: left; color: var(--ink-soft); font-size: 0.9rem; margin-bottom: 0.75em; }
+th, td { text-align: left; padding: 0.75em 1em; border: 1px solid var(--border); }
+thead th { background: var(--blueprint); color: var(--paper); font-size: 0.85rem; }
+tbody th { background: var(--paper-card); white-space: nowrap; }
+tbody tr:nth-child(even) td { background: rgba(30, 75, 122, 0.05); }
+
+#projects {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+#projects h2 { grid-column: 1 / -1; }
+#projects article {
+  background: var(--paper-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+@media (min-width: 700px) {
+  #projects {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  #projects h2 { margin-bottom: 0.5rem; }
+}
+
+#contact form {
+  max-width: 480px;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+#contact form div { display: flex; flex-direction: column; gap: 0.4rem; }
+#contact label { font-size: 0.85rem; color: var(--ink-soft); }
+
+input, textarea {
+  font: inherit;
+  padding: 0.65em 0.75em;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--ink);
+}
+textarea { resize: vertical; }
+
+button[type="submit"] {
+  align-self: flex-start;
+  font: inherit;
+  background: var(--blueprint);
+  color: var(--paper);
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.75em 1.5em;
+  cursor: pointer;
+}
+button[type="submit"]:hover { background: var(--blueprint-deep); }
+
+footer {
+  background: var(--blueprint-deep);
+  color: var(--paper);
+  padding: 2rem 1.5rem;
+}
+footer address {
+  max-width: 1000px;
+  margin: 0 auto;
+  font-style: normal;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+footer a { color: var(--paper); }
+footer a:hover, footer a:focus-visible { color: #8FC4EE; }
+footer p {
+  max-width: 1000px;
+  margin: 1rem auto 0;
+  font-size: 0.8rem;
+  color: #C7D3E0;
+}
