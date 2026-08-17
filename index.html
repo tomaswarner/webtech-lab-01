@@ -8,16 +8,18 @@
 </head>
 <body>
 
-  <header>
+ <header>
     <a href="#main">Tomas Warner</a>
     <nav aria-label="Main">
       <ul>
         <li><a href="#about">About</a></li>
         <li><a href="#skills">Skills</a></li>
+        <li><a href="#watchlist">Watchlist</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
+    <button type="button" id="theme-toggle" aria-pressed="false">Dark mode</button>
   </header>
 
   <main id="main">
@@ -69,6 +71,47 @@
       </table>
     </section>
 
+    <section id="watchlist" aria-labelledby="watchlist-heading">
+      <h2 id="watchlist-heading">What I've watched this year</h2>
+
+      <div class="watch-controls">
+        <label for="watch-search">Search</label>
+        <input type="text" id="watch-search" placeholder="Search by title">
+        <div class="watch-filter-buttons">
+          <button type="button" class="watch-filter" data-category="all" aria-pressed="true">All</button>
+          <button type="button" class="watch-filter" data-category="Movie" aria-pressed="false">Movies</button>
+          <button type="button" class="watch-filter" data-category="Series" aria-pressed="false">Series</button>
+        </div>
+      </div>
+
+      <p id="watch-empty" hidden>No titles match your search.</p>
+      <ul id="watch-list"></ul>
+
+      <form id="watch-add-form">
+        <h3>Add something you watched</h3>
+        <div>
+          <label for="watch-title">Title</label>
+          <input type="text" id="watch-title" required>
+        </div>
+        <div>
+          <label for="watch-type">Type</label>
+          <select id="watch-type">
+            <option value="Movie">Movie</option>
+            <option value="Series">Series</option>
+          </select>
+        </div>
+        <div>
+          <label for="watch-genre">Genre</label>
+          <input type="text" id="watch-genre" required>
+        </div>
+        <div>
+          <label for="watch-year">Year</label>
+          <input type="number" id="watch-year" required>
+        </div>
+        <button type="submit">Add to list</button>
+      </form>
+    </section>
+
     <section id="projects" aria-labelledby="projects-heading">
       <h2 id="projects-heading">Projects</h2>
 
@@ -99,20 +142,24 @@
       <h2 id="contact-heading">Contact</h2>
       <p>Have something to tell me? Reach out.</p>
 
-      <form action="#" method="post">
+      <form id="contact-form" action="#" method="post" novalidate>
         <div>
           <label for="name">Name</label>
-          <input type="text" id="name" name="name" autocomplete="name" required>
+          <input type="text" id="name" name="name" autocomplete="name">
+          <p class="form-error" id="name-error" hidden></p>
         </div>
         <div>
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" autocomplete="email" required>
+          <input type="email" id="email" name="email" autocomplete="email">>
+          <p class="form-error" id="email-error" hidden></p>
         </div>
         <div>
           <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
+          <textarea id="message" name="message" rows="5"></textarea>
+          <p class="form-error" id="message-error" hidden></p>
         </div>
         <button type="submit">Send message</button>
+        <p id="form-success" aria-live="polite" hidden>Thanks — your message looks good. (No server yet, so nothing was actually sent.)</p>
       </form>
     </section>
 
@@ -127,6 +174,6 @@
     <p>Last updated: <time datetime="2026-08">August 2026</time></p>
   </footer>
 
+  <script src="script.js" defer></script>
 </body>
 </html>
-
