@@ -112,6 +112,34 @@
       </form>
     </section>
 
+    <section id="price-list" aria-labelledby="price-list-heading">
+      <h2 id="price-list-heading">Wheelhouse price list</h2>
+      <p>The wall list of a neighborhood bike repair shop, read from the Wheelhouse API when the page loads.</p>
+
+      <p id="price-status" role="status">Loading the price list…</p>
+
+      <table id="price-table" hidden>
+        <caption>Services and what each one costs</caption>
+        <thead>
+          <tr>
+            <th scope="col">Service</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody id="price-rows"></tbody>
+      </table>
+
+      <form id="price-lookup-form">
+        <h3>Look up one service</h3>
+        <div>
+          <label for="price-lookup-id">Service id</label>
+          <input type="number" id="price-lookup-id" min="1" step="1" required>
+        </div>
+        <button type="submit">Look up</button>
+        <div id="price-lookup-result" aria-live="polite"></div>
+      </form>
+    </section>
+
     <section id="projects" aria-labelledby="projects-heading">
       <h2 id="projects-heading">Projects</h2>
 

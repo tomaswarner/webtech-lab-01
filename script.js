@@ -1,3 +1,5 @@
+const API_URL = "http://localhost:3000/api/v1";
+
 const movieData = [
   { title: "Silo", type: "Series", genre: "Sci-Fi", year: 2026 },
   { title: "The Handmaid's Tale", type: "Series", genre: "Drama", year: 2025 },
@@ -178,3 +180,101 @@ contactForm.addEventListener("submit", (event) => {
     contactForm.reset();
   }
 });
+
+const priceFormat = new Intl.NumberFormat("es-CL", { style: "currency", currency: "CLP" });
+const API_UNAVAILABLE = "The price list is not available right now. Try again in a moment.";
+
+class ApiError extends Error {
+  constructor(messages) {
+    super(messages.join(" "));
+    this.messages = messages;
+  }
+}
+
+async function requestApi(path) {
+  const response = await fetch(`${API_URL}${path}`);
+  const body = await response.json();
+
+  if (!response.ok) {
+    const messages = Array.isArray(body.errors) ? body.errors : [`The API answered ${response.status}.`];
+    throw new ApiError(messages);
+  }
+
+  return body;
+}
+
+function describeFailure(error) {
+  return error instanceof ApiError ? error.message : API_UNAVAILABLE;
+}
+
+const priceStatus = document.querySelector("#price-status");
+const priceTable = document.querySelector("#price-table");
+const priceRows = document.querySelector("#price-rows");
+
+function createPriceRow(service) {
+  const row = document.createElement("tr");
+
+  const name = document.createElement("th");
+  name.scope = "row";
+  name.textContent = service.name;
+
+  const price = document.createElement("td");
+  price.textContent = priceFormat.format(Number(service.price));
+
+  row.append(name, price);
+  return row;
+}
+
+async function loadPrices() {
+  try {
+    const services = await requestApi("/services");
+    priceRows.replaceChildren(...services.map(createPriceRow));
+    priceTable.hidden = false;
+    priceStatus.hidden = true;
+  } catch (error) {
+    priceStatus.textContent = describeFailure(error);
+  }
+}
+
+const lookupForm = document.querySelector("#price-lookup-form");
+const lookupInput = document.querySelector("#price-lookup-id");
+const lookupResult = document.querySelector("#price-lookup-result");
+
+function showLookupMessage(text, className) {
+  const message = document.createElement("p");
+  message.textContent = text;
+  if (className) message.className = className;
+  lookupResult.replaceChildren(message);
+}
+
+function showService(service) {
+  const times = service.repairs_count === 1 ? "1 repair" : `${service.repairs_count} repairs`;
+
+  const name = document.createElement("h4");
+  name.textContent = service.name;
+
+  const price = document.createElement("p");
+  price.textContent = `Price: ${priceFormat.format(Number(service.price))}`;
+
+  const charged = document.createElement("p");
+  charged.textContent = `Charged on ${times}`;
+
+  lookupResult.replaceChildren(name, price, charged);
+}
+
+lookupForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const id = lookupInput.value.trim();
+  if (!id) return;
+
+  showLookupMessage("Looking it up…");
+
+  try {
+    showService(await requestApi(`/services/${encodeURIComponent(id)}`));
+  } catch (error) {
+    showLookupMessage(describeFailure(error), "form-error");
+  }
+});
+
+loadPrices();
